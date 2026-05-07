@@ -15,23 +15,29 @@ inventory-optimization/
 │   └── processed/
 ├── notebooks/
 │   ├── 01_preprocessing.ipynb
+│   ├── 02_EDA.ipynb
+│   └── 03_ABC_XYZ.ipynb
 ├── .gitignore
 └── README.md
 ```
 
 ## Progress
 - [x] Data preprocessing  
-- [ ] Exploratory Data Analysis (EDA)  
-- [ ] ABC–XYZ segmentation  
+- [x] Exploratory Data Analysis (EDA)  
+- [x] ABC–XYZ segmentation  
 - [ ] Forecasting  
 - [ ] Inventory policy simulation 
 
-## Current Focus
-- Clean and structure transactional inventory data  
-- Prepare dataset for time-series and SKU-level analysis 
+## Key Findings
+- Inventory performance is uneven across SKUs, with a small subset contributing disproportionately to lost sales.  
+- High-value A-class SKUs experience lower fill rates and higher lost sales, indicating understocking and the need for improved forecasting and safety stock policies.  
+- Several low-value C-class SKUs maintain excessive inventory coverage, particularly CZ items, suggesting potential overstock and inefficient capital allocation.  
+- Differences in demand variability across XYZ categories highlight the need for differentiated inventory policies rather than a uniform replenishment strategy.
 
 ## Next Steps
-- Perform EDA to understand demand and inventory behavior
-- Conduct ABC–XYZ segmentation
-- Implement inventory policies (EOQ, ROP, safety stock)  
-- Simulate cost vs service level trade-offs
+- Forecasting
+- Optimize inventory policies:
+  - Safety stock  
+  - Reorder point (ROP)  
+  - Order quantity (EOQ)  
+- Simulate trade-offs between service level and inventory cost
