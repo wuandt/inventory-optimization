@@ -10,13 +10,17 @@
 ## Project Structure
 ```
 inventory-optimization/
+├── .vscode
 ├── data/
 │   ├── raw/
 │   └── processed/
+├── model/
 ├── notebooks/
 │   ├── 01_preprocessing.ipynb
 │   ├── 02_EDA.ipynb
-│   └── 03_ABC_XYZ.ipynb
+│   ├── 03_ABC_XYZ.ipynb
+│   └── 04_forecasting.ipynb
+├── params/
 ├── .gitignore
 └── README.md
 ```
@@ -25,17 +29,19 @@ inventory-optimization/
 - [x] Data preprocessing  
 - [x] Exploratory Data Analysis (EDA)  
 - [x] ABC–XYZ segmentation  
-- [ ] Forecasting  
+- [x] Forecasting  
 - [ ] Inventory policy simulation 
 
 ## Key Findings
-- Inventory performance is uneven across SKUs, with a small subset contributing disproportionately to lost sales.  
-- High-value A-class SKUs experience lower fill rates and higher lost sales, indicating understocking and the need for improved forecasting and safety stock policies.  
-- Several low-value C-class SKUs maintain excessive inventory coverage, particularly CZ items, suggesting potential overstock and inefficient capital allocation.  
-- Differences in demand variability across XYZ categories highlight the need for differentiated inventory policies rather than a uniform replenishment strategy.
+- **Significant Performance Improvement over Baselines**:  
+  The optimized LightGBM model delivers substantially higher forecasting accuracy, achieving an **MAE of 4.74**. This represents approximately a **30% improvement** compared to the Naive model (MAE = 6.82) and Seasonal Naive model (MAE = 6.62).
+- **Superior Bias Correction**:  
+  While traditional baseline models suffer from severe systematic under-forecasting — with %Bias of **-15.69%** (Naive) and **-9.82%** (Seasonal Naive) — the LightGBM model successfully reduces the bias to a near-ideal **-2.41%**.  
+  This significant improvement is critical in minimizing stock-out risks and maintaining high service levels.
+- **Acceptable Volatility Handling for Safety Stock Calculation**:  
+  Although the %MAE (~29.9%) and %RMSE (~39.1%) remain relatively high due to the volatile nature of electronics demand at the SKU level, these error metrics are still usable. In particular, the %RMSE can be effectively leveraged to calculate safety stock, enabling a balanced approach between service level and inventory cost.
 
 ## Next Steps
-- Forecasting
 - Optimize inventory policies:
   - Safety stock  
   - Reorder point (ROP)  
