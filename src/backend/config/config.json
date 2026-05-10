@@ -1,0 +1,49 @@
+{
+  "paths": {
+    "data_raw": "data/raw",
+    "data_processed": "data/processed",
+    "model": "model",
+    "params": "params"
+  },
+  "data": {
+    "train_start": "2024-03-31",
+    "split_date": "2025-10-01",
+    "target_col": "demand",
+    "date_col": "date",
+    "sku_col": "sku_id"
+  },
+  "forecasting": {
+    "forecast_classes": ["AX", "AY"],
+    "mean_classes": ["CX"],
+    "seasonal_classes": ["BZ", "CZ"],
+    "season_length": 365,
+    "optuna_n_trials": 50,
+    "optuna_seed": 42,
+    "lgbm_fixed_params": {
+      "objective": "regression",
+      "metric": "rmse",
+      "verbosity": -1,
+      "boosting_type": "gbdt",
+      "n_estimators": 2000,
+      "seed": 42,
+      "feature_fraction_seed": 42,
+      "bagging_seed": 42,
+      "data_random_seed": 42,
+      "deterministic": true,
+      "force_col_wise": true,
+      "n_jobs": -1
+    }
+  },
+  "inventory": {
+    "service_level_map": {"AX": 99, "AY": 97, "CX": 85, "BZ": 85, "CZ": 75},
+    "ordering_cost": 50,
+    "holding_rate": 0.25
+  },
+  "abc_xyz": {
+    "abc_a_threshold": 0.80,
+    "abc_b_threshold": 0.95,
+    "xyz_q1": 0.25,
+    "xyz_q3": 0.75,
+    "xyz_season_length": 365
+  }
+}

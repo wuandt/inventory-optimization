@@ -1,11 +1,5 @@
-data/**
-!data/
-!data/raw/
-!data/processed/
-!data/raw/.gitkeep
-!data/processed/.gitkeep
-!data/.gitkeep
-
+__pycache__/
+.vscode/
 params/**
 !params/
 !params/.gitkeep
