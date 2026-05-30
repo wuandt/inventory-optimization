@@ -59,7 +59,7 @@ Interactive Streamlit Dashboard
 ## Interactive Dashboard
 An interactive Streamlit dashboard to explore the full analysis results across 4 pages.
 
-👉 **[Open Dashboard](https://your-app.streamlit.app)**
+👉 **[Open Dashboard](https://inventory-policy-optimization.streamlit.app)**
 
 | Page | Description |
 |------|-------------|
