@@ -114,11 +114,11 @@ if page == "🏠 Overview":
 
     c1, c2, c3, c4, c5 = st.columns(5)
     kpi_data = [
-        (c1, "Total Inventory Value", f"${total_value:,.0f}",                  None, None),
-        (c2, "Total SKUs",            f"{total_sku:,}",                         None, None),
-        (c3, "Avg DOI",               f"{sku_metric['DOI'].mean():.1f} days",   None, None),
-        (c4, "Inventory Turnover",    f"{turnover:.2f}×/yr",                    None, None),
-        (c5, "Avg Fill Rate",         f"{fill_rate_avg:.1%}",                   None, None)
+        (c1, "Total Inventory Value", f"${total_value:,.0f}",                   None, None),
+        (c2, "Total SKUs",            f"{total_sku:,}",                          None, None),
+        (c3, "Avg DOI",               f"{sku_metric['DOI'].mean():.2f} days",    None, None),
+        (c4, "Inventory Turnover",    f"{turnover:.2f}×/yr",                     None, None),
+        (c5, "Avg Fill Rate",         f"{fill_rate_avg:.2%}",                    None, None)
     ]
     for col, label, value, delta, delta_type in kpi_data:
         with col:
@@ -172,9 +172,9 @@ if page == "🏠 Overview":
                 .sort_values("DOI", ascending=False)
                 .reset_index(drop=True)
             )
-            slow_df["fill_rate"]     = slow_df["fill_rate"].map("{:.1%}".format)
-            slow_df["DOI"]           = slow_df["DOI"].round(1)
-            slow_df["avg_inventory"] = slow_df["avg_inventory"].round(1)
+            slow_df["fill_rate"]     = slow_df["fill_rate"].map("{:.2%}".format)
+            slow_df["DOI"]           = slow_df["DOI"].round(2)
+            slow_df["avg_inventory"] = slow_df["avg_inventory"].round(2)
             st.dataframe(
                 slow_df.rename(columns={
                     "sku_id": "SKU", "DOI": "DOI (days)",
@@ -193,9 +193,9 @@ if page == "🏠 Overview":
                 .sort_values("fill_rate", ascending=True)
                 .reset_index(drop=True)
             )
-            risk_df["fill_rate"]  = risk_df["fill_rate"].map("{:.1%}".format)
-            risk_df["DOI"]        = risk_df["DOI"].round(1)
-            risk_df["lost_sales"] = risk_df["lost_sales"].round(1)
+            risk_df["fill_rate"]  = risk_df["fill_rate"].map("{:.2%}".format)
+            risk_df["DOI"]        = risk_df["DOI"].round(2)
+            risk_df["lost_sales"] = risk_df["lost_sales"].round(2)
             st.dataframe(
                 risk_df.rename(columns={
                     "sku_id": "SKU", "fill_rate": "Fill Rate",
@@ -232,11 +232,9 @@ if page == "🏠 Overview":
         with col_a:
             class_count = sku_class["class"].value_counts().reset_index()
             class_count.columns = ["class", "count"]
-            # Sort by count descending: SKU count nhiều nhất → màu đậm nhất
             class_count = class_count.sort_values("count", ascending=False).reset_index(drop=True)
 
             n = len(class_count)
-            # t=1 (darkest) cho class nhiều SKU nhất, t=0.15 (lightest) cho ít nhất
             pie_colors = [
                 lerp_hex("#dbeafe", "#1E90FF", 1 - i / max(n - 1, 1) * 0.85)
                 for i in range(n)
@@ -291,7 +289,7 @@ if page == "🏠 Overview":
             x=top10["sku_id"],
             y=top10["avg_inventory"],
             marker_color=BLUE,
-            text=top10["avg_inventory"].round(1),
+            text=top10["avg_inventory"].round(2),
             textposition="outside"
         ))
         fig.update_layout(
@@ -305,7 +303,7 @@ if page == "🏠 Overview":
         st.plotly_chart(fig, use_container_width=True)
 
         st.dataframe(
-            top10.assign(fill_rate=lambda d: d["fill_rate"].map("{:.1%}".format))
+            top10.assign(fill_rate=lambda d: d["fill_rate"].map("{:.2%}".format))
             .rename(columns={
                 "sku_id": "SKU", "avg_inventory": "Avg Inventory",
                 "DOI": "DOI (days)", "fill_rate": "Fill Rate"
@@ -341,9 +339,9 @@ elif page == "📊 ABC-XYZ Analysis":
     # Metrics table
     st.markdown('<div class="section-header">Metrics by Class</div>', unsafe_allow_html=True)
     summary = loader.get_class_summary().copy()
-    summary["avg_fill_rate"]  = (summary["avg_fill_rate"] * 100).round(1).astype(str) + "%"
-    summary["avg_doi"]        = summary["avg_doi"].round(1)
-    summary["avg_lost_sales"] = summary["avg_lost_sales"].round(1)
+    summary["avg_fill_rate"]  = (summary["avg_fill_rate"] * 100).round(2).astype(str) + "%"
+    summary["avg_doi"]        = summary["avg_doi"].round(2)
+    summary["avg_lost_sales"] = summary["avg_lost_sales"].round(2)
     st.dataframe(summary, use_container_width=True, hide_index=True)
 
     # Problem classes
@@ -391,7 +389,6 @@ elif page == "📊 ABC-XYZ Analysis":
     ax_ay["target"] = ax_ay["class"].map(SERVICE_LEVEL).astype(float) / 100
 
     with col1:
-        # Fill rate vs target — sorted by fill_rate desc
         ax_ay_sorted = ax_ay.sort_values("fill_rate", ascending=False).reset_index(drop=True)
         fig = go.Figure()
         for i, row in ax_ay_sorted.iterrows():
@@ -399,7 +396,7 @@ elif page == "📊 ABC-XYZ Analysis":
                 x=[row["class"]], y=[row["fill_rate"]],
                 name=row["class"],
                 marker_color=BLUE,
-                text=f"{row['fill_rate']:.1%}", textposition="outside",
+                text=f"{row['fill_rate']:.2%}", textposition="outside",
                 showlegend=False
             ))
             fig.add_shape(
@@ -424,7 +421,7 @@ elif page == "📊 ABC-XYZ Analysis":
             agg, "lost_sales",
             highlight_classes=["AX", "AY"],
             title="Avg Lost Sales by Class",
-            text_fmt=lambda v: f"{v:.1f}"
+            text_fmt=lambda v: f"{v:.2f}"
         )
         st.plotly_chart(fig, use_container_width=True)
 
@@ -438,7 +435,7 @@ elif page == "📊 ABC-XYZ Analysis":
             agg, "lost_sales",
             highlight_classes=["CX"],
             title="Avg Lost Sales — CX has the highest",
-            text_fmt=lambda v: f"{v:.1f}"
+            text_fmt=lambda v: f"{v:.2f}"
         )
         st.plotly_chart(fig, use_container_width=True)
 
@@ -447,7 +444,7 @@ elif page == "📊 ABC-XYZ Analysis":
             agg, "DOI",
             highlight_classes=["CX"],
             title="Avg DOI — CX is among the lowest",
-            text_fmt=lambda v: f"{v:.1f}"
+            text_fmt=lambda v: f"{v:.2f}"
         )
         st.plotly_chart(fig, use_container_width=True)
 
@@ -461,7 +458,7 @@ elif page == "📊 ABC-XYZ Analysis":
             agg, "fill_rate",
             highlight_classes=["BZ", "CZ"],
             title="Fill Rate — BZ, CZ higher than AX, AY",
-            text_fmt=lambda v: f"{v:.1%}",
+            text_fmt=lambda v: f"{v:.2%}",
             yaxis_fmt=".0%"
         )
         st.plotly_chart(fig, use_container_width=True)
@@ -471,7 +468,7 @@ elif page == "📊 ABC-XYZ Analysis":
             agg, "DOI",
             highlight_classes=["BZ", "CZ"],
             title="DOI — CZ highest, followed by BZ",
-            text_fmt=lambda v: f"{v:.1f}"
+            text_fmt=lambda v: f"{v:.2f}"
         )
         st.plotly_chart(fig, use_container_width=True)
 
@@ -510,7 +507,7 @@ elif page == "📈 Forecast Performance":
         [c1, c2, c3, c4],
         ["Forecast Accuracy", "%MAE", "%RMSE", "%Bias"],
         [acc, pct_mae, pct_rmse, pct_bias],
-        ["{:.1f}%", "{:.1f}%", "{:.1f}%", "{:+.1f}%"]
+        ["{:.2f}%", "{:.2f}%", "{:.2f}%", "{:+.2f}%"]
     ):
         with col:
             st.markdown(f"""
@@ -560,8 +557,8 @@ elif page == "🎯 Inventory Policy":
     new_cls = new_df[new_df["class"] == selected_class]
 
     METRICS = [
-        ("fill_rate",     "Fill Rate",          "{:.1%}", 1,    True),
-        ("avg_inventory", "Avg Inventory",       "{:.1f}", 1,    True),
+        ("fill_rate",     "Fill Rate",          "{:.2%}", 1,    True),
+        ("avg_inventory", "Avg Inventory",       "{:.2f}", 1,    True),
         ("holding_cost",  "Holding Cost ($)",    "{:,.0f}", 1,   False),
         ("ordering_cost", "Ordering Cost ($)",   "{:,.0f}", 1,   False),
         ("stockout_cost", "Stockout Cost ($)",   "{:,.0f}", 1,   False),
@@ -573,17 +570,24 @@ elif page == "🎯 Inventory Policy":
     for col, (metric, label, fmt, scale, higher_is_better) in zip(cols, METRICS):
         old_val = old_cls[metric].mean() * scale
         new_val = new_cls[metric].mean() * scale
-        delta   = (new_val - old_val) / abs(old_val) * 100 if old_val != 0 else 0
-        improved = (delta > 0) == higher_is_better
-        arrow   = "▲" if delta > 0 else "▼"
-        delta_class = "kpi-delta-pos" if improved else "kpi-delta-neg"
-
+        if metric == "fill_rate":
+            delta       = (new_val - old_val) * 100
+            improved    = (delta > 0) == higher_is_better
+            arrow       = "▲" if delta > 0 else "▼"
+            delta_class = "kpi-delta-pos" if improved else "kpi-delta-neg"
+            delta_str   = f"{arrow} {abs(delta):.2f} pts"
+        else:
+            delta       = (new_val - old_val) / abs(old_val) * 100 if old_val != 0 else 0
+            improved    = (delta > 0) == higher_is_better
+            arrow       = "▲" if delta > 0 else "▼"
+            delta_class = "kpi-delta-pos" if improved else "kpi-delta-neg"
+            delta_str   = f"{arrow} {abs(delta):.2f}% vs old"
         with col:
             st.markdown(f"""
             <div class="kpi-card">
                 <div class="kpi-label">{label}</div>
                 <div class="kpi-value">{fmt.format(new_val)}</div>
-                <div class="{delta_class}">{arrow} {abs(delta):.1f}% vs old</div>
+                <div class="{delta_class}">{delta_str}</div>
             </div>
             """, unsafe_allow_html=True)
 
