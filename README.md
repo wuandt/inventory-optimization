@@ -23,19 +23,11 @@ The inventory system faces both understock and overstock issues across different
 ---
 
 ## Business Impact
-| Class | Fill Rate | Avg Inventory | Holding Cost | Ordering Cost | Stockout Cost | Total Cost |
-|---|---|---:|---:|---:|---:|---:|
-| AX | 95.82% → **98.31%** | 299 → **281** (-5.9%) | ↓ 5.4% | ↑ 4.8% | ↓ 65.2% | **↓ 56.1%** |
-| AY | 95.42% → **97.61%** | 340 → **303** (-10.8%) | ↓ 11.4% | ↑ 5.5% | ↓ 57.7% | **↓ 50.3%** |
-| CX | 92.56% → **98.55%** | 294 → **318** (+7.9%) | ↑ 11.7% | ↑ 6.9% | ↓ 82.8% | **↓ 69.2%** |
-| BZ | 99.12% → 98.38% | 370 → **298** (-19.5%) | ↓ 20.8% | ↓ 1.0% | ↑ 102.7% | ↓ 0.8% |
-| CZ | 99.45% → 98.05% | 380 → **281** (-26.2%) | ↓ 27.2% | ↓ 1.3% | ↑ 250.3% | ↓ 1.3% |
-### Key Findings
-- **AX, AY** — Improved fill rate by ~2% while reducing inventory by 6–11% and cutting total cost by over 50%.
-- **CX** — Fill rate improved from 92.56% to 98.55%, reducing stockout cost by 82.8% and total cost by 69.2%.
-- **BZ, CZ** — Reduced excess inventory by 20–26%, lowering holding cost while maintaining acceptable service levels.
+-  **AX, AY** — Achieved the strongest performance, increasing fill rate by over 2% while reducing inventory by 6–11%, cutting stockout costs by more than 56%, and reducing total cost by approximately 50%.
+- **CX** — Successfully corrected understock conditions. Fill rate improved from 92.56% to 95.70% while inventory decreased slightly. Stockout cost fell by 45.86%, resulting in a 39.1% reduction in total cost.
+- **BZ, CZ** — Reduced excess inventory by 20–26% with only a minor decrease in fill rate. The increase in stockout cost was outweighed by savings in holding cost, leading to a more balanced inventory position.
 
-> Overall, the optimized policy achieved better service levels with significantly lower inventory-related costs.
+> Overall, the optimized inventory policy improved service levels for understocked classes while reducing excess inventory in overstocked classes, resulting in a more cost-efficient and balanced inventory system.
 
 ---
 
