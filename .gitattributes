@@ -1,0 +1,17 @@
+* text=auto eol=lf
+
+# Source and documentation use portable LF line endings
+*.py text eol=lf
+*.md text eol=lf
+*.ipynb text eol=lf
+*.toml text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+
+# These files are hashed byte-for-byte by artifact_manifest.json
+data/raw/*.csv -text -eol whitespace=trailing-space,space-before-tab,cr-at-eol
+data/processed/*.csv -text -eol whitespace=trailing-space,space-before-tab,cr-at-eol
+data/metadata/inventory_data_contract.json -text -eol whitespace=trailing-space,space-before-tab,cr-at-eol
+src/backend/config/config.json -text -eol whitespace=trailing-space,space-before-tab,cr-at-eol
+params/best_params.json -text -eol whitespace=trailing-space,space-before-tab,cr-at-eol
+params/feature_importance.csv -text -eol whitespace=trailing-space,space-before-tab,cr-at-eol

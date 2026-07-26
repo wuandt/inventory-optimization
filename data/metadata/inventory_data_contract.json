@@ -1,0 +1,35 @@
+{
+  "artifact": "data/processed/inventory_processed.csv",
+  "grain": "one row per sku_id per calendar date",
+  "inventory_level_convention": "end_of_day",
+  "target": "demand",
+  "primary_key": [
+    "sku_id",
+    "date"
+  ],
+  "schema": {
+    "sku_id": "object",
+    "date": "datetime64[ns]",
+    "demand": "int64",
+    "sales_quantity": "int64",
+    "inventory_level": "int64",
+    "order_received": "int64",
+    "category": "object",
+    "lead_time": "int64",
+    "safety_stock": "int64",
+    "reorder_point": "int64",
+    "order_quantity": "int64",
+    "unit_cost": "float64",
+    "unit_price": "float64"
+  },
+  "date_range": {
+    "start": "2024-01-01",
+    "end": "2025-12-31"
+  },
+  "final_holdout": {
+    "start": "2025-10-01",
+    "purpose": "locked retrospective evaluation; excluded from selection and calibration"
+  },
+  "row_count": 109650,
+  "sku_count": 150
+}

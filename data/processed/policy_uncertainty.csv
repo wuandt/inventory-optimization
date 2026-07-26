@@ -1,0 +1,4 @@
+metric,estimate,ci_2_5,ci_97_5,n_bootstrap,method
+fill_rate_delta_percentage_points,1.6287544169611312,0.708153636567081,2.676177128018028,2000,paired_sku_bootstrap
+avg_inventory_change_pct,-40.92994059157912,-44.26364900136634,-37.29654555348059,2000,paired_sku_bootstrap
+total_cost_change_pct,-52.93588774518261,-63.18577821207657,-41.160943088002234,2000,paired_sku_bootstrap

@@ -1,5 +1,45 @@
+# Python environments, caches, and build output
 __pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.pytest_cache/
+pytest-cache-files-*/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
+
+# Jupyter and editor state
+.ipynb_checkpoints/
 .vscode/
-params/**
-!params/
-!params/.gitkeep
+.idea/
+
+# Local agent state
+.agents/
+.codex/
+
+# Secrets and machine-local configuration
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+
+# Runtime output
+*.log
+
+# Serialized model artifacts
+/model/
+/models/
+*.pkl
+*.pickle
+*.joblib
+
+# Keep only the reproducibility artifacts in params
+params/*
+!params/best_params.json
+!params/feature_importance.csv

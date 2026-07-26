@@ -1,0 +1,3 @@
+policy_label,sku_count,total_demand,total_sales,total_lost,fill_rate,cycle_service_level,sum_sku_avg_inventory,stockout_cost,holding_cost,ordering_cost,total_cost,baseline_source,mean_rop,median_rop
+recorded_reorder_point,109,126784.0,123013.0,3771.0,0.9702564992428067,0.817629179331307,37315.38043478261,3611711.28,1682142.4707397257,11900.0,5305753.750739725,recorded_reorder_point,146.12844036697248,142.0
+receipt_inferred_proxy,109,126784.0,122430.0,4354.0,0.9656581272084805,0.8043478260869565,36582.06521739131,4157457.97,1648392.2316301372,11850.0,5817700.201630137,receipt_inferred_proxy,138.24770642201835,135.0

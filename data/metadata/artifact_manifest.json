@@ -1,0 +1,289 @@
+{
+  "run_id": "2026-07-26T05:45:36.438801+00:00",
+  "status": "validated_pipeline_run",
+  "evaluation_semantics": "locked retrospective evaluation window; excluded from model selection",
+  "protocol": {
+    "protocol": "rolling_one_step",
+    "forecast_horizon_days": 1,
+    "evaluation_window_label": "locked_evaluation_window",
+    "selection_metric": "wape",
+    "validation_fold_days": 30,
+    "validation_n_folds": 5
+  },
+  "data_windows": {
+    "train_start": "2024-01-01",
+    "validation_start": "2025-01-01",
+    "validation_end": "2025-09-30",
+    "model_selection_start": "2025-01-01",
+    "model_selection_end": "2025-05-30",
+    "policy_calibration_start": "2025-05-31",
+    "policy_calibration_end": "2025-09-30",
+    "final_test_start": "2025-10-01",
+    "target_col": "demand",
+    "date_col": "date",
+    "sku_col": "sku_id"
+  },
+  "provenance": {
+    "git_commit": "244876b0b0627758652ee73bf13cf499fd2dae94",
+    "working_tree_dirty": true,
+    "source_sha256": {
+      "src/backend/main.py": "c295cd000edde45a280aec189ec35a1b0baf8b8be939d74b92d0341c298d7299",
+      "src/backend/data/loader.py": "3e948de6ef0e0da6b1ab9af3774e574953bf7ab914cdc51f3617e2df644ceafd",
+      "src/backend/features/feature_engineering.py": "09296c55ae51a09630795f5e35be96c1b4ffee0968f9f2af2e3fa3499c5f71f1",
+      "src/backend/models/classification.py": "477eef19193720ac59b38ee12fc795885ad2f0889713a8048075886962b1d144",
+      "src/backend/models/forecasting.py": "fa7ad6da5f26d77e760c9cd9ae3ec8fca63a7d3d7bd1b25afdc49e0ccc2f01d4",
+      "src/backend/models/simulation.py": "d6d9347c82dc4df712afef4914839ba627ab473b1c7ce67a95e8ff9ac6957a99"
+    },
+    "runtime": {
+      "python": "3.12.6",
+      "platform": "Windows-10-10.0.19045-SP0",
+      "pandas": "2.2.2",
+      "numpy": "2.1.1",
+      "lightgbm": "4.6.0",
+      "scipy": "1.14.1"
+    }
+  },
+  "model_selection": {
+    "xyz": "HistoricMean",
+    "strategic": "LightGBM",
+    "understock": "Naive",
+    "overstock": "HistoricMean"
+  },
+  "optimization_scope": {
+    "segments": [
+      {
+        "class": "AX",
+        "intervention": "protect_strategic_value"
+      },
+      {
+        "class": "AY",
+        "intervention": "protect_strategic_value"
+      },
+      {
+        "class": "CX",
+        "intervention": "correct_understock"
+      },
+      {
+        "class": "AZ",
+        "intervention": "reduce_overstock"
+      },
+      {
+        "class": "BZ",
+        "intervention": "reduce_overstock"
+      },
+      {
+        "class": "CZ",
+        "intervention": "reduce_overstock"
+      }
+    ],
+    "sku_count": 109,
+    "portfolio_sku_count": 150,
+    "sku_coverage": 0.7266666666666667,
+    "demand_coverage": 0.741088788513927,
+    "economic_value_basis": "gross_margin",
+    "gross_margin_value_coverage": 0.8838143062465511
+  },
+  "forecast_portfolio": {
+    "scope": "optimization_scope_only",
+    "MAE": 4.2378676705608935,
+    "RMSE": 5.638536866001354,
+    "WAPE": 0.33519479587633016,
+    "Bias": 0.06937863490525488,
+    "MASE": 0.7324571152671523,
+    "RMSSE": 0.7146316930347617
+  },
+  "simulation_portfolio": {
+    "scope": "optimization_scope_only",
+    "historical_policy_source": "recorded_parameters",
+    "proposed_policy_mode": "next_day_forecast_known_at_end_of_current_day",
+    "cost_assumptions": {
+      "ordering_cost": 50,
+      "holding_rate": 0.25,
+      "shortage_cost_method": "lost_unit_gross_margin",
+      "shortage_cost_multiplier": 1.0
+    },
+    "old_total_cost": 5305753.750739725,
+    "new_total_cost": 2497105.9012123286,
+    "old_fill_rate": 0.9702564992428067,
+    "new_fill_rate": 0.986544043412418,
+    "paired_sku_bootstrap": [
+      {
+        "metric": "fill_rate_delta_percentage_points",
+        "estimate": 1.6287544169611312,
+        "ci_2_5": 0.708153636567081,
+        "ci_97_5": 2.676177128018028,
+        "n_bootstrap": 2000,
+        "method": "paired_sku_bootstrap"
+      },
+      {
+        "metric": "avg_inventory_change_pct",
+        "estimate": -40.92994059157912,
+        "ci_2_5": -44.26364900136634,
+        "ci_97_5": -37.29654555348059,
+        "n_bootstrap": 2000,
+        "method": "paired_sku_bootstrap"
+      },
+      {
+        "metric": "total_cost_change_pct",
+        "estimate": -52.93588774518261,
+        "ci_2_5": -63.18577821207657,
+        "ci_97_5": -41.160943088002234,
+        "n_bootstrap": 2000,
+        "method": "paired_sku_bootstrap"
+      }
+    ],
+    "cost_sensitivity": {
+      "scenario_count": 36,
+      "positive_savings_scenario_share": 1.0,
+      "minimum_total_cost_savings": 1463375.1387164379,
+      "maximum_total_cost_savings": 5198488.415338355
+    },
+    "future_demand_lead_time_stress": {
+      "scenario_count": 100,
+      "method": "paired_residual_block_bootstrap_with_lead_time_shocks",
+      "positive_cost_savings_scenario_share": 1.0,
+      "quantiles": {
+        "fill_rate_delta_percentage_points": {
+          "p05": 0.8821295812205937,
+          "p50": 1.818322520048754,
+          "p95": 4.735401842786234
+        },
+        "avg_inventory_change_pct": {
+          "p05": -43.047485423497996,
+          "p50": -41.1001750667831,
+          "p95": -35.19719870010526
+        },
+        "total_cost_change_pct": {
+          "p05": -65.50433846012724,
+          "p50": -60.568113212637755,
+          "p95": -52.210390754071774
+        },
+        "total_cost_savings": {
+          "p05": 1919757.752915513,
+          "p50": 2915675.7769556153,
+          "p95": 5253872.501345198
+        }
+      }
+    }
+  },
+  "full_portfolio_simulation": [
+    {
+      "policy_label": "recorded_policy_all_skus",
+      "sku_count": 150,
+      "total_demand": 170725.0,
+      "total_sales": 166440.0,
+      "total_lost": 4285.0,
+      "fill_rate": 0.9749011568311612,
+      "cycle_service_level": 0.8408071748878924,
+      "sum_sku_avg_inventory": 51885.27173913043,
+      "stockout_cost": 3705679.17,
+      "holding_cost": 2019389.0047123288,
+      "ordering_cost": 15950.0,
+      "total_cost": 5741018.174712329
+    },
+    {
+      "policy_label": "proposed_in_scope_recorded_out_of_scope",
+      "sku_count": 150,
+      "total_demand": 170725.0,
+      "total_sales": 168505.0,
+      "total_lost": 2220.0,
+      "fill_rate": 0.9869966320105432,
+      "cycle_service_level": 0.8473154362416108,
+      "sum_sku_avg_inventory": 36612.10869565216,
+      "stockout_cost": 1607943.46,
+      "holding_cost": 1299876.8651849316,
+      "ordering_cost": 24550.0,
+      "total_cost": 2932370.3251849315
+    }
+  ],
+  "artifacts": {
+    "data/raw/inventory.csv": {
+      "sha256": "a52f1e9a591b878e0935cf5d522bd5ee33d45aa6465668fdf1815b20b51098b2",
+      "bytes": 7450798
+    },
+    "src/backend/config/config.json": {
+      "sha256": "7c3d968151b75e1dcbc005b7996b2b989e0783af6d42f1f1996815a5d58154ba",
+      "bytes": 3256
+    },
+    "data/processed/inventory_processed.csv": {
+      "sha256": "a52f1e9a591b878e0935cf5d522bd5ee33d45aa6465668fdf1815b20b51098b2",
+      "bytes": 7450798
+    },
+    "data/metadata/inventory_data_contract.json": {
+      "sha256": "1b2d63e97a32c600bbee5f26d24c7663536594b733196a7e9fc9d3118a218054",
+      "bytes": 908
+    },
+    "data/processed/sku_class.csv": {
+      "sha256": "07f05f10e50f273e71efe4274de94294c9eec9d37d49ae0a84fe781802f1913e",
+      "bytes": 1812
+    },
+    "data/processed/sku_metric.csv": {
+      "sha256": "30a5d6f6a9dba58e8b48f96fa59f62559d951ac470d4ecc4d6a93c73d4a74ce5",
+      "bytes": 16846
+    },
+    "data/processed/optimization_scope.csv": {
+      "sha256": "3f10ca1225e1b9caf782d4dc62fe91c900b135c26b7430d264335ec1d9b59ab4",
+      "bytes": 1023
+    },
+    "data/processed/validation_forecast.csv": {
+      "sha256": "cea59438149cc4269e263a85c86418232674697c1dc6e63004a50029e7161f26",
+      "bytes": 1626324
+    },
+    "data/processed/forecast.csv": {
+      "sha256": "f6aea0966dcb6ed01eccb4d308485d35c57d09b7c1e99bbd4867a1af1d9d2259",
+      "bytes": 949179
+    },
+    "data/processed/forecast_metrics.csv": {
+      "sha256": "0ca16a94081e3ad5d6356bdd9f62e7394c114946423b028d292cf89f51205852",
+      "bytes": 15380
+    },
+    "data/processed/policy_sku.csv": {
+      "sha256": "2dec195b8ddd21acfc1c8f13ed4ef47d2419e46d01e1a2112298189eabe5ff2d",
+      "bytes": 24810
+    },
+    "data/processed/old_policy_metric.csv": {
+      "sha256": "c207a7cdaada7ee24d91554ad1763e0fc1bc26f3c40d975f1ca1175a8803b929",
+      "bytes": 16508
+    },
+    "data/processed/new_policy_metric.csv": {
+      "sha256": "6fecc9d7699094aa5462b90e007c164f9e2d9cb19442526a3061f75e3ee07cad",
+      "bytes": 17070
+    },
+    "data/processed/policy_uncertainty.csv": {
+      "sha256": "b127014154f9b03370a731a4edaf784bca3e5c3e03b644196185807a63588af0",
+      "bytes": 381
+    },
+    "data/processed/policy_candidate_audit.csv": {
+      "sha256": "745b87113a9919fd7b28d1914bae19a4e45419daf4de7cace15faaff47e4b4c5",
+      "bytes": 615816
+    },
+    "data/processed/policy_sensitivity.csv": {
+      "sha256": "2e6e9027a1052fae8d1e6754b474acc7d32eafb8f6070dcf6aa75e51cbca941a",
+      "bytes": 11171
+    },
+    "data/processed/policy_action.csv": {
+      "sha256": "b44e2887d2bb3619ab3ff0ed174d6a1cbd40d098983c8e85a5583d42b141be08",
+      "bytes": 43817
+    },
+    "data/processed/historical_policy_sensitivity.csv": {
+      "sha256": "c713b20d78d88d5278c6765d6d91fd95c1be8a62dfc5b98a59ed6dc12786bc88",
+      "bytes": 623
+    },
+    "data/processed/full_policy_summary.csv": {
+      "sha256": "284a9df0dbb133d1fcdbbc9d5e77c62f9f1c25aa8aee33e8312647d44ccdacb4",
+      "bytes": 512
+    },
+    "data/processed/scenario_uncertainty.csv": {
+      "sha256": "a491a1049195f3b7261f15931f046ba4165f59d86dbcea247438f6d8209b4d74",
+      "bytes": 83443
+    },
+    "params/best_params.json": {
+      "sha256": "597d96478a147eb7e47f008f4248e8b5dc5f19ebe07673154c1c30f0194b3fef",
+      "bytes": 1770
+    },
+    "params/feature_importance.csv": {
+      "sha256": "6288d201f0bfb70f8ad176b7c1b4fc51919f895243214da7f81f09bb0fb5e37f",
+      "bytes": 621
+    }
+  }
+}

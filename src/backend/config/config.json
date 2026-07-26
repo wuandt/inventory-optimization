@@ -2,48 +2,101 @@
   "paths": {
     "data_raw": "data/raw",
     "data_processed": "data/processed",
-    "model": "model",
     "params": "params"
   },
   "data": {
-    "train_start": "2024-03-31",
-    "split_date": "2025-10-01",
+    "train_start": "2024-01-01",
+    "validation_start": "2025-01-01",
+    "validation_end": "2025-09-30",
+    "model_selection_start": "2025-01-01",
+    "model_selection_end": "2025-05-30",
+    "policy_calibration_start": "2025-05-31",
+    "policy_calibration_end": "2025-09-30",
+    "final_test_start": "2025-10-01",
     "target_col": "demand",
     "date_col": "date",
     "sku_col": "sku_id"
   },
+  "backtest": {
+    "protocol": "rolling_one_step",
+    "forecast_horizon_days": 1,
+    "evaluation_window_label": "locked_evaluation_window",
+    "selection_metric": "wape",
+    "validation_fold_days": 30,
+    "validation_n_folds": 5
+  },
   "forecasting": {
-    "forecast_classes": ["AX", "AY"],
-    "mean_classes": ["CX"],
-    "seasonal_classes": ["BZ", "CZ"],
     "season_length": 365,
-    "optuna_n_trials": 50,
+    "optuna_n_trials": 8,
     "optuna_seed": 42,
     "lgbm_fixed_params": {
       "objective": "regression",
       "metric": "rmse",
       "verbosity": -1,
       "boosting_type": "gbdt",
-      "n_estimators": 2000,
+      "n_estimators": 600,
       "seed": 42,
       "feature_fraction_seed": 42,
       "bagging_seed": 42,
       "data_random_seed": 42,
       "deterministic": true,
       "force_col_wise": true,
-      "n_jobs": -1
+      "n_jobs": 1
     }
   },
   "inventory": {
-    "service_level_map": {"AX": 99, "AY": 97, "CX": 85, "BZ": 85, "CZ": 75},
+    "service_level_map": {"AX": 99, "AY": 97, "AZ": 90, "CX": 90, "BZ": 85, "CZ": 80},
+    "service_level_by_intervention": {
+      "protect_strategic_value": 97,
+      "correct_understock": 90,
+      "reduce_overstock": 85
+    },
+    "service_level_basis": "scenario_assumption_pending_business_approval",
+    "fill_rate_floor_by_intervention": {
+      "protect_strategic_value": 0.97,
+      "correct_understock": 0.95,
+      "reduce_overstock": 0.98
+    },
     "ordering_cost": 50,
-    "holding_rate": 0.25
+    "holding_rate": 0.25,
+    "shortage_cost_method": "lost_unit_gross_margin",
+    "shortage_cost_multiplier": 1.0,
+    "historical_policy_source": "recorded_parameters",
+    "order_quantity_strategy": "validation_cost_grid",
+    "policy_review_frequency": "daily",
+    "dynamic_rop_forecast_alignment": "next_day_forecast_known_at_end_of_current_day",
+    "q_candidate_multipliers": [0.5, 0.75, 1.0, 1.25, 1.5],
+    "rop_candidate_quantiles": [0.75, 0.8, 0.85, 0.9, 0.95, 0.97, 0.99],
+    "minimum_order_quantity_default": 1,
+    "order_multiple_default": 1,
+    "cost_sensitivity": {
+      "holding_rates": [0.15, 0.25, 0.35],
+      "ordering_costs": [25, 50, 100],
+      "shortage_cost_multipliers": [0.5, 1.0, 1.5, 2.0]
+    },
+    "scenario_simulation": {
+      "n_scenarios": 100,
+      "seed": 42,
+      "residual_block_days": 7,
+      "lead_time_multipliers": [0.8, 1.0, 1.2, 1.5],
+      "lead_time_probabilities": [0.1, 0.5, 0.3, 0.1]
+    },
+    "safety_stock_method": "empirical_cumulative_lead_time_residual",
+    "service_target_definition": "lead_time_demand_coverage_probability",
+    "cycle_service_definition": "receipt_cycle_without_lost_sales_proxy"
   },
   "abc_xyz": {
+    "abc_value_basis": "gross_margin",
     "abc_a_threshold": 0.80,
     "abc_b_threshold": 0.95,
     "xyz_q1": 0.25,
     "xyz_q3": 0.75,
     "xyz_season_length": 365
+  },
+  "optimization_scope": {
+    "high_value_a_share_min": 0.25,
+    "understock_fill_rate_max": 0.95,
+    "overstock_fill_rate_min": 0.99,
+    "overstock_doi_quantile": 0.75
   }
 }
